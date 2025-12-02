@@ -7,10 +7,12 @@ FROM docker.io/library/ruby:3.4.7-slim-trixie AS base
 
 WORKDIR /rails
 
-RUN apt-get update -qq && \
+# Use cache mount for apt packages to speed up subsequent builds
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips libpq5 postgresql-client procps && \
-    ln -s /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+    ln -s /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so
 
 ARG RAILS_ENV="production"
 ARG BUNDLE_DEPLOYMENT="true"
@@ -37,10 +39,11 @@ ENV RAILS_ENV=${RAILS_ENV} \
 # Throw-away build stage to reduce size of final image
 FROM base AS build
 
-# Install packages needed to build gems
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libpq-dev libyaml-dev pkg-config && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+# Install packages needed to build gems (use cache mount for faster builds)
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential git libpq-dev libyaml-dev pkg-config
 
 # ARG GITLAB_HOST="gitlab.com"
 
@@ -70,16 +73,18 @@ RUN apt-get update -qq && \
 
 COPY Gemfile Gemfile.lock ./
 
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+# Use cache mount for bundler cache to speed up subsequent builds
+RUN --mount=type=cache,target=/root/.bundle \
+    --mount=type=cache,target=/usr/local/bundle/cache \
+    bundle install && \
+    rm -rf "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     rm -f ~/.git-credentials && \
-    # -j 1 disable parallel compilation to avoid a QEMU bug: https://github.com/rails/bootsnap/issues/495
-    bundle exec bootsnap precompile -j 1 --gemfile
+    bundle exec bootsnap precompile -j 4 --gemfile
 
 COPY . .
 
 # Precompile bootsnap code for faster boot times
-RUN bundle exec bootsnap precompile -j 1 app/ lib/
+RUN bundle exec bootsnap precompile -j 4 app/ lib/
 
 # Final stage for app image
 FROM base
