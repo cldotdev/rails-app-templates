@@ -44,14 +44,6 @@ docker compose build
 docker compose up -d
 ```
 
-For development with automatic file synchronization:
-
-```sh
-docker compose up --watch
-```
-
-The `--watch` flag enables automatic syncing of code changes to the container without rebuilding. Changes to application code, configs, and other non-ignored files will be reflected immediately. Press `Ctrl+C` to stop.
-
 Database migrations run automatically on container startup by default (`APP_DB_MIGRATION=true`). Set to `false` in `.env` to disable.
 
 When developing with database schema changes, update `db/structure.sql` using one-time containers with volume mount:
