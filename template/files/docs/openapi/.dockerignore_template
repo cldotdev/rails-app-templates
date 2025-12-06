@@ -25,7 +25,8 @@
 \#*\#
 *~
 
-# Claude Code
+# AI agent
+/.agent/
 /.claude/
 /CLAUDE.md
 /.serena/

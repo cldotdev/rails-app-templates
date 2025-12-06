@@ -64,7 +64,8 @@
 /.idea
 .DS_Store
 
-# Claude Code
+# AI agent
+/.agent/
 /.claude/
 /CLAUDE.md
 /.serena/
