@@ -75,6 +75,8 @@ Naming/AccessorMethodName:
 Naming/MethodParameterName:
   AllowNamesEndingInNumbers: true
   MinNameLength: 1
+Naming/PredicateMethod:
+  Enabled: false
 Naming/PredicatePrefix:
   Enabled: false
 Naming/VariableNumber:
@@ -149,7 +151,7 @@ Style/ZeroLengthPredicate:
 # API tests typically validate: status code, headers, body structure, and specific fields
 # Default Max: 1 is too restrictive for real-world API testing
 RSpec/MultipleExpectations:
-  Max: 5
+  Max: 6
 
 # API integration tests include: test data setup, request execution, and response validation
 # Set to 20 to accommodate complex integration scenarios while still encouraging clarity
@@ -166,6 +168,7 @@ RSpec/ExampleLength:
 RSpec/BeforeAfterAll:
   Exclude:
     - 'spec/tasks/**/*_spec.rb'
+    - 'spec/lib/tasks/**/*_spec.rb'
 
 # API tests often organize by: controller -> action -> context -> edge cases
 # Default Max: 3 can be limiting for comprehensive API test organization
@@ -177,6 +180,18 @@ RSpec/NestedGroups:
 RSpec/ContextWording:
   Enabled: false
 
+# Rake task specs describe tasks, not classes
+# Allow descriptive task names like "admin rake tasks" instead of class names
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/lib/tasks/**/*_spec.rb'
+
+# Rake task specs need explicit block handling for noecho mocking
+# Using .and_yield causes test failures with stdin mocking
+RSpec/Yield:
+  Exclude:
+    - 'spec/lib/tasks/**/*_spec.rb'
+
 # FactoryBot configurations
 # Control maximum number of records created in a single create_list call
 FactoryBot/ExcessiveCreateList:
@@ -187,3 +202,28 @@ FactoryBot/ExcessiveCreateList:
 # Do not enforce InferredSpecType since infer_spec_type_from_file_location! is disabled
 RSpecRails/InferredSpecType:
   Enabled: false
+
+# Message spies preference conflicts with our testing style
+RSpec/MessageSpies:
+  Enabled: false
+
+# Allow indexed let for test data setup (e.g., blob1, blob2, user1, user2)
+RSpec/IndexedLet:
+  Enabled: false
+
+# Allow let! for test data setup even if not directly referenced
+RSpec/LetSetup:
+  Enabled: false
+
+# Allow stubbed mocks for method expectations
+RSpec/StubbedMock:
+  Enabled: false
+
+# Allow any_instance stubbing in complex integration tests
+RSpec/AnyInstance:
+  Enabled: false
+
+# Controller concern specs use anonymous controller blocks where described_class is not available
+RSpec/DescribedClass:
+  Exclude:
+    - 'spec/controllers/concerns/**/*_spec.rb'
