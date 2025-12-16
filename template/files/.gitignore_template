@@ -60,12 +60,6 @@ compose.*.local.yml
 .cache/
 .ruby-lsp/
 
-# Claude Code
-.claude/settings.local.json
-.claude/logs/
-.claude/*.log
-.claude/cache/
-.serena/
-
-# Database schema (using structure.sql instead of schema.rb)
-/db/schema.rb
+# AI Agent
+/.claude/
+/.serena/

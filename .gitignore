@@ -37,8 +37,6 @@ coverage/
 .env
 .env*.local
 
-# Claude Code (local settings and logs)
-.claude/settings.local.json
-.claude/logs/
-.claude/*.log
-.claude/cache/
+# AI Agent
+/.claude/
+/.serena/
