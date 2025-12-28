@@ -1,7 +1,4 @@
 x-common: &common
-  env_file:
-    - .env.example
-    - .env
   networks:
     - rails_app
 
@@ -31,17 +28,20 @@ x-redis-common: &redis-common
     timeout: 5s
     retries: 3
     start_period: 5s
-  expose:
-    - 6379
 
 x-rails-common: &rails-common
-  image: local/rails_app:latest
-  build:
-    context: .
-    args:
-      # Sentry release tracking (optional, for correlating errors with deployments)
-      # REVISION is set during Docker build and baked into the image
-      REVISION: ${REVISION}
+  image: $APP_IMAGE_NAME
+  env_file:
+    - .env.example
+    - .env.prod
+  secrets:
+    - pg_password
+    - redis_cache_password
+    - redis_cable_password
+    - redis_session_password
+    - redis_queue_password
+    - rails_secret_key_base
+    - mailer_smtp_password
 
 services:
   pg:
@@ -136,14 +136,6 @@ services:
     stop_grace_period: 40s
     volumes:
       - server_storage:/rails/storage
-    secrets:
-      - pg_password
-      - redis_cache_password
-      - redis_cable_password
-      - redis_session_password
-      - redis_queue_password
-      - rails_secret_key_base
-      - mailer_smtp_password
   worker:
     <<: [*common, *rails-common]
     logging: *default-logging
@@ -166,14 +158,6 @@ services:
     volumes:
       - server_storage:/rails/storage
     command: ["./bin/jobs"]
-    secrets:
-      - pg_password
-      - redis_cache_password
-      - redis_cable_password
-      - redis_session_password
-      - redis_queue_password
-      - rails_secret_key_base
-      - mailer_smtp_password
   cloudflared:
     <<: [*common]
     image: cloudflare/cloudflared:latest

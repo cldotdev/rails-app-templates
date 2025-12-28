@@ -33,6 +33,7 @@ Create Docker secrets in `.secrets/` (see `.env.example` for required secrets):
 ```sh
 # Create .secrets directory and files
 mkdir -p .secrets
+openssl rand -hex 64 > .secrets/rails_secret_key_base
 printf "your_smtp_password" > .secrets/mailer_smtp_password
 printf "your_cloudflare_tunnel_token" > .secrets/cf_tunnel_token
 ```
@@ -79,7 +80,7 @@ Create Docker Swarm secrets (see `.env.example` for all required secrets):
 ```sh
 # Example: Create secrets from stdin
 printf "your_password" | docker secret create <app_name>_pg_password -
-printf "your_token" | docker secret create <app_name>_rails_secret_key_base -
+openssl rand -hex 64 | docker secret create <app_name>_rails_secret_key_base -
 
 # Required secrets: pg_password, redis_cache_password, redis_cable_password,
 # redis_session_password, redis_queue_password, rails_secret_key_base,

@@ -50,6 +50,7 @@ x-rails-common: &rails-common
     redis_queue:
       condition: service_healthy
   secrets:
+    - rails_secret_key_base
     - mailer_smtp_password
   volumes:
     - ./.srv/server/storage:/rails/storage
@@ -157,6 +158,8 @@ services:
       - cf_tunnel_token
 
 secrets:
+  rails_secret_key_base:
+    file: ./.secrets/rails_secret_key_base
   mailer_smtp_password:
     file: ./.secrets/mailer_smtp_password
   cf_tunnel_token:
