@@ -110,6 +110,7 @@ recipe "sidekiq"
 recipe "rspec"
 recipe "pg_query"
 recipe "rubocop"
+recipe "brakeman"
 recipe "sentry"
 
 # Configuration recipes (environment-specific settings)

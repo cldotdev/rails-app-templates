@@ -24,6 +24,12 @@ bundle install
 bundle exec rubocop -A
 ```
 
+### Security Testing
+
+```sh
+bundle exec brakeman
+```
+
 ### Development Environment
 
 Copy `.env.example` to `.env` and configure settings.
