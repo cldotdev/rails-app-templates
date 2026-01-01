@@ -12,7 +12,7 @@ x-logging: &default-logging
 x-pg-common: &pg-common
   image: postgres:18-alpine
   healthcheck:
-    test: ["CMD-SHELL", "pg_isready"]
+    test: ["CMD-SHELL", "pg_isready -U ${APP_POSTGRES_USER} -d ${APP_POSTGRES_DB}"]
     interval: 10s
     timeout: 5s
     retries: 5
