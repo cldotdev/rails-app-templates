@@ -1,6 +1,6 @@
-# Rails Application Template
+# Rails Application Templates
 
-Rails 8.1 + Ruby 3.4 API template with production-ready configuration.
+Rails 8.1 + Ruby 3.4 API templates with production-ready configuration.
 
 ## Features
 
@@ -25,7 +25,7 @@ Rails 8.1 + Ruby 3.4 API template with production-ready configuration.
 ## Usage
 
 ```bash
-rails new <project_name> --api -d postgresql --skip-test --skip-solid -m rails_app_template/template/api.rb
+rails new <project_name> --api -d postgresql --skip-test --skip-solid -m rails-app-templates/template/api.rb
 ```
 
 ## Configuration

@@ -5,7 +5,7 @@ task :rubocop, [:mode] do |_t, args|
   mode = args[:mode]
   fix_flag = mode == "fix" ? "-A" : ""
 
-  puts "Checking rails_app_template files..."
+  puts "Checking rails-app-templates files..."
   sh "rubocop #{fix_flag}"
 
   puts "\nChecking template files..."
@@ -15,12 +15,12 @@ task :rubocop, [:mode] do |_t, args|
 end
 
 namespace :rubocop do
-  desc "Check rails_app_template files only"
+  desc "Check rails-app-templates files only"
   task :app, [:mode] do |_t, args|
     mode = args[:mode]
     fix_flag = mode == "fix" ? "-A" : ""
 
-    puts "Checking rails_app_template files..."
+    puts "Checking rails-app-templates files..."
     sh "rubocop #{fix_flag}"
   end
 
@@ -43,8 +43,8 @@ task :help do
     Code Style Checking (RuboCop):
       rake rubocop              # Check all files (app + template)
       rake rubocop[fix]         # Auto-correct all files
-      rake rubocop:app          # Check rails_app_template files only
-      rake rubocop:app[fix]     # Auto-correct rails_app_template files
+      rake rubocop:app          # Check rails-app-templates files only
+      rake rubocop:app[fix]     # Auto-correct rails-app-templates files
       rake rubocop:template     # Check template files only
       rake rubocop:template[fix] # Auto-correct template files
 
