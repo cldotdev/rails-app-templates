@@ -227,3 +227,8 @@ RSpec/AnyInstance:
 RSpec/DescribedClass:
   Exclude:
     - 'spec/controllers/concerns/**/*_spec.rb'
+
+# Allow update_column, update_columns, touch, etc.
+# These methods skip validations intentionally for performance or data fixes
+Rails/SkipsModelValidations:
+  Enabled: false
