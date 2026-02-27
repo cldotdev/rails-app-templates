@@ -72,10 +72,6 @@ directory from_files(".secrets"), ".secrets"
 # 700: Only owner can read/write/execute (prevents other users from listing)
 # This is required for Docker Compose to properly mount secrets
 after_bundle do
-  # Ensure bundler setup is complete before any generators run
-  # This prevents LoadError when initializers are loaded during generator execution
-  Bundler.setup
-
   run "chmod 700 .secrets" if File.directory?(".secrets")
 
   # Set 640 permissions for secret files (owner: rw, group: r, others: none)
@@ -99,6 +95,7 @@ environment "config.active_job.queue_adapter = :test", env: "test"
 recipe "aasm"
 recipe "alba"
 recipe "bcrypt"
+recipe "oj"
 recipe "benchmark"
 recipe "config"
 recipe "jwt"
@@ -178,5 +175,5 @@ end
 # This ensures the generated project follows RuboCop style guidelines
 after_bundle do
   say "Running RuboCop auto-corrections..."
-  run "bundle exec rubocop -A"
+  run "bundle exec rubocop -A", abort_on_failure: false
 end
