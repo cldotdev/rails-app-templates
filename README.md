@@ -149,7 +149,6 @@ docker compose -f compose.test.yaml run --rm rails bundle exec rspec
 
 ### API Development
 - **alba** - Fast JSON serialization
-- **oj** - High-performance JSON parser
 - **rack-attack** - API rate limiting (requires configuration)
 - **rack-cors** - CORS support
 - **jwt** - JWT authentication
