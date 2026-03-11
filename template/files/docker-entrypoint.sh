@@ -32,7 +32,7 @@ rm -f /rails/tmp/pids/server.pid
 set_secret "SECRET_KEY_BASE" "APP_SECRET_KEY_BASE_FILE"
 
 if [ "${APP_DB_MIGRATION:-false}" = "true" ]; then
-  echo "Running database migration..."
+  echo "Running database setup..."
   ./bin/rails db:prepare
 fi
 

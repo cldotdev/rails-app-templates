@@ -198,8 +198,9 @@ FactoryBot/ExcessiveCreateList:
   MaxAmount: 15
 
 # RSpec Rails configurations
-# Project explicitly uses type: metadata instead of automatic inference
-# Do not enforce InferredSpecType since infer_spec_type_from_file_location! is disabled
+# infer_spec_type_from_file_location! is enabled, so InferredSpecType cop
+# would flag explicit type: metadata that matches the inferred type.
+# Disable to allow both explicit and inferred spec types.
 RSpecRails/InferredSpecType:
   Enabled: false
 

@@ -1,5 +1,3 @@
-require "jwt"
-
 # RSpec Request Spec Helpers for API Testing
 # Follows 2025 best practices: avoid instance variables, use explicit headers
 # Reference: https://www.betterspecs.org/
@@ -74,21 +72,9 @@ module RequestHelper
 
   private
 
-  # Generate JWT token for testing
-  # Override this method in your rails_helper.rb if you have custom JWT logic
-  #
-  # Example override:
-  #   module RequestHelper
-  #     def generate_jwt_token(user)
-  #       JwtService.encode(user_id: user.id)
-  #     end
-  #   end
+  # Generate JWT token for testing using the app's JwtService
   def generate_jwt_token(user)
-    JWT.encode(
-      { user_id: user.id, exp: 24.hours.from_now.to_i },
-      Rails.application.secret_key_base,
-      "HS256"
-    )
+    JwtService.encode(user_id: user.id)
   end
 end
 

@@ -59,8 +59,8 @@ Rack::Attack.blocklist("block_sensitive_files") do |req|
     /\.save$/i,
 
     # Keys and credentials
-    /\/\.pem$/i,                   # SSL certificates
-    /\/\.key$/i,                   # Private key files
+    /\.pem$/i,                     # SSL certificates
+    /\.key$/i,                     # Private key files
     /\/\.crt$/i,                   # Certificates
     /\/\.cer$/i,
     /credentials/i,                # Credentials keyword
@@ -146,11 +146,13 @@ end
 # ----------------------------------------------------------------------------
 
 Rack::Attack.blocklist("block_directory_traversal") do |req|
-  req.path.include?("../") ||
-    req.path.include?("..\\") ||
-    req.path.include?("%2e%2e") ||
-    req.path.include?("..%2F") ||
-    req.path.include?("..%5C")
+  path = Rack::Utils.unescape(req.path)
+
+  path.include?("../") ||
+    path.include?("..\\") ||
+    path.include?("%2e%2e") ||
+    path.include?("..%2F") ||
+    path.include?("..%5C")
 end
 
 # ----------------------------------------------------------------------------
@@ -158,7 +160,7 @@ end
 # ----------------------------------------------------------------------------
 
 Rack::Attack.blocklist("block_sql_injection_xss") do |req|
-  query_string = req.query_string.to_s.downcase
+  query_string = Rack::Utils.unescape(req.query_string.to_s).downcase
 
   sql_xss_patterns = [
     "union select",

@@ -202,7 +202,7 @@ RSpec.describe "Security: Path Scanning Protection", type: :request do
     end
 
     it 'blocks ..\\ patterns (Windows)' do
-      get '/api\\..\\..\\config'
+      get "/api%5C..%5C..%5Cconfig"
       expect(response).to have_http_status(:forbidden)
     end
 

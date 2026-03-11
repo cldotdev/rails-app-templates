@@ -36,6 +36,16 @@ after_bundle do
     start += 1
   end
 
+  # Enable infer_spec_type_from_file_location! (commented out by rspec:install)
+  # This allows specs in spec/requests/ to automatically get type: :request, etc.
+  lines = lines.map do |line|
+    if line.include?("infer_spec_type_from_file_location!") && line.strip.start_with?("#")
+      line.sub(/# */, "")
+    else
+      line
+    end
+  end
+
   File.open("spec/rails_helper.rb", "w") do |f|
     f.write(lines.join)
     f.flush

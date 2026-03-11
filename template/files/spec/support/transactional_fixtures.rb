@@ -22,13 +22,14 @@ RSpec.configure do |config|
   # Rails 5.1+ automatically handles database sharing between threads
   # No additional configuration needed unless using very old Rails versions
 
-  # Load seeds before test suite runs
-  # This ensures test data from db/seeds.rb is available for all specs
+  # Truncate all tables before test suite runs
+  # This ensures a clean database state when running tests in Docker
+  # where data may persist across runs (e.g., from previous test containers)
   config.before(:suite) do
-    Rails.application.load_seed if Rails.env.test?
+    ActiveRecord::Base.connection.tables.each do |table|
+      next if table.in?(%w[schema_migrations ar_internal_metadata])
 
-    # Add custom seed logic for test cases below this line
-    # Example:
-    #   FactoryBot.create(:admin_user, email: 'admin@test.org')
+      ActiveRecord::Base.connection.execute("TRUNCATE TABLE #{table} CASCADE")
+    end
   end
 end

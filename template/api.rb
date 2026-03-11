@@ -120,6 +120,12 @@ environment <<~RUBY
   # Silence healthcheck logs
   config.silence_healthcheck_path = "/up"
 
+  # Pundit's verify_authorized/verify_policy_scoped use :only/:except filters
+  # on ApplicationController. Rails 8.1 raises ActionNotFound if a referenced
+  # action doesn't exist in a subclass. Disable this check so Pundit's
+  # pattern works across all controllers.
+  config.action_controller.raise_on_missing_callback_actions = false
+
   # Allow additional hosts from environment variable
   # Configure via ALLOWED_HOSTS env var (comma-separated)
   # Example: ALLOWED_HOSTS="example.com,test.example.com,dev.example.com"

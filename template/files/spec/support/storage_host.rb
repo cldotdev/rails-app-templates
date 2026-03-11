@@ -6,9 +6,8 @@ RSpec.configure do |config|
     # This is used by Rails routing helpers (e.g., user_url(user))
     Rails.application.routes.default_url_options[:host] = "test.example.org"
 
-    # Mock ActiveStorage host for generating URLs
-    # This prevents ActiveStorage from trying to access actual host
-    allow(ActiveStorage::Current).to receive(:host).and_return("test.example.org")
+    # Set ActiveStorage URL options for generating URLs in tests
+    ActiveStorage::Current.url_options = { host: "test.example.org" }
   end
 
   # Clean up ActiveStorage test files after all tests complete
