@@ -10,6 +10,7 @@ inherit_mode:
 
 AllCops:
   NewCops: enable
+  StringLiteralsFrozenByDefault: true
   TargetRubyVersion: 3.4
   TargetRailsVersion: 8.0
   SuggestExtensions: false
@@ -95,7 +96,7 @@ Style/Documentation:
 Style/EmptyMethod:
   EnforcedStyle: expanded
 Style/FrozenStringLiteralComment:
-  Enabled: false
+  EnforcedStyle: never
 Style/GuardClause:
   Enabled: false
 Style/HashEachMethods:

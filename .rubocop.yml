@@ -4,6 +4,7 @@
 
 AllCops:
   NewCops: enable
+  StringLiteralsFrozenByDefault: true
   Exclude:
     # template/files/ contains files that will be copied to new projects
     # These are templates, not part of this project itself
@@ -77,7 +78,7 @@ Style/Documentation:
 Style/EmptyMethod:
   EnforcedStyle: expanded
 Style/FrozenStringLiteralComment:
-  Enabled: false
+  EnforcedStyle: never
 Style/GuardClause:
   Enabled: false
 Style/HashEachMethods:

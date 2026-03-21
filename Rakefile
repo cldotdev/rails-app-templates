@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 desc "Check code style with RuboCop (use: rubocop, rubocop[fix], rubocop:app, rubocop:template)"
 task :rubocop, [:mode] do |_t, args|
   mode = args[:mode]
