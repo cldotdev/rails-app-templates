@@ -169,7 +169,9 @@ docker compose -f compose.test.yaml run --rm rails bundle exec rspec
 ### Development
 - **debug** - Ruby's official debugger
 - **rubocop** - Ruby code analyzer
-- **brakeman** - Rails security vulnerability scanner
+- **erb_lint** - ERB template linter
+- **brakeman** - Rails security vulnerability scanner (Rails built-in)
+- **ruby-lsp** / **ruby-lsp-rails** - Language server for editors
 - **benchmark-ips** - Performance benchmarking
 
 ### Monitoring

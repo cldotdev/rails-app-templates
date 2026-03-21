@@ -14,9 +14,13 @@
 # - rubocop-factory_bot: FactoryBot-specific cops
 # - rubocop-rake: Rake-specific cops
 
-gem "rubocop"
-gem "rubocop-rails"
-gem "rubocop-rake", "~> 0.6"
-gem "rubocop-rspec", "~> 3.7"
-gem "rubocop-rspec_rails", "~> 2.31"
-gem "rubocop-factory_bot", "~> 2.27"
+# Remove Rails 8.1 default rubocop-rails-omakase and its comment (replaced by custom rubocop config)
+gsub_file "Gemfile", /^\s*# Omakase Ruby styling.*$\n/, ""
+gsub_file "Gemfile", /^\s*gem ["']rubocop-rails-omakase["'].*$\n/, ""
+
+gem "rubocop", group: :development
+gem "rubocop-rails", group: :development
+gem "rubocop-rake", "~> 0.6", group: :development
+gem "rubocop-rspec", "~> 3.7", group: :development
+gem "rubocop-rspec_rails", "~> 2.31", group: :development
+gem "rubocop-factory_bot", "~> 2.27", group: :development
