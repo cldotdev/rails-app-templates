@@ -21,13 +21,13 @@ Rails 8.1 API application using Valkey (Redis-compatible) for caching, backgroun
 bundle install
 
 # Run RuboCop with auto-correct
-bundle exec rubocop -A
+bin/rubocop -A
 ```
 
 ### Security Testing
 
 ```sh
-bundle exec brakeman
+bin/brakeman
 ```
 
 ### Development Environment
@@ -56,7 +56,7 @@ Database migrations run automatically on container startup by default (`APP_DB_M
 When developing with database schema changes, update `db/structure.sql` using one-time containers with volume mount:
 
 ```sh
-docker compose run --rm -v $(pwd)/db:/rails/db server bundle exec rails db:migrate
+docker compose run --rm -v $(pwd)/db:/rails/db server bin/rails db:migrate
 ```
 
 The `-v $(pwd)/db:/rails/db` flag syncs `structure.sql` changes back to host.
@@ -66,7 +66,7 @@ The `-v $(pwd)/db:/rails/db` flag syncs `structure.sql` changes back to host.
 The test environment uses PostgreSQL and Valkey for testing with real Redis instances.
 
 ```sh
-docker compose -f compose.test.yaml run --rm --build server bundle exec rspec
+docker compose -f compose.test.yaml run --rm --build server bin/rspec
 ```
 
 ### Production Environment
