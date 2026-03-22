@@ -107,7 +107,6 @@ recipe "rspec"
 recipe "pg_query"
 recipe "rubocop"
 recipe "erb_lint"
-recipe "ruby_lsp"
 recipe "sentry"
 
 # Configuration recipes (environment-specific settings)
