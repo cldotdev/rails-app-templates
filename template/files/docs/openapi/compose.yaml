@@ -1,28 +1,26 @@
 name: "app-api-docs"
 
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "${LOG_MAX_SIZE:-50m}"
+    max-file: "${LOG_MAX_FILE:-10}"
+    compress: "true"
+
 services:
   web:
     image: local/app-api-docs:latest
     build: .
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-fsS", "http://localhost/"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "cloudflared", "tunnel", "--metrics", "localhost:2000", "ready"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
-    command: tunnel --metrics 0.0.0.0:2000 run --token-file /run/secrets/cf_tunnel_token
+    logging: *default-logging
+  tunnel:
+    image: cloudflare/cloudflared:latest # dclint disable-line service-image-require-explicit-tag
     secrets:
       - cf_tunnel_token
+    command: tunnel --metrics 127.0.0.1:20241 run --token-file /run/secrets/cf_tunnel_token
+    restart: unless-stopped
+    logging: *default-logging
+    pull_policy: always
 
 secrets:
   cf_tunnel_token:
