@@ -5,7 +5,7 @@
 #
 # Directory structure:
 #   docs/openapi/           - OpenAPI documentation root
-#   ├── Dockerfile          - nginx:alpine with embedded configuration
+#   ├── Dockerfile          - nginx (Alpine) with embedded configuration
 #   ├── compose.yaml        - Standalone Docker Compose service
 #   ├── spec.yaml           - Main OpenAPI 3.1.0 specification
 #   ├── *.html              - Documentation interfaces (Swagger UI, ReDoc)

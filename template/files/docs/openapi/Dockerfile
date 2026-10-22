@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM nginx:1.30.1-alpine
+FROM nginx:1.31.8-alpine
 WORKDIR /app
 COPY ./src/ .
 COPY <<EOF /etc/nginx/nginx.conf
@@ -13,6 +13,7 @@ events {
 }
 
 http {
+  server_tokens      off;
   include            /etc/nginx/mime.types;
   default_type       application/octet-stream;
 
@@ -42,8 +43,16 @@ http {
     root         /app;
     index        index.html;
 
-    # Disable caching for API documentation
-    add_header Cache-Control 'no-store, no-cache, must-revalidate';
+    absolute_redirect off;
+    add_header_inherit merge;
+
+    # The peer is the tunnel container on a Docker network (Docker's default address pools).
+    real_ip_header   CF-Connecting-IP;
+    set_real_ip_from 172.16.0.0/12;
+    set_real_ip_from 192.168.0.0/16;
+
+    # Always revalidate API documentation
+    add_header Cache-Control 'no-cache';
 
     # Enable CORS for API documentation
     add_header Access-Control-Allow-Origin '*';
