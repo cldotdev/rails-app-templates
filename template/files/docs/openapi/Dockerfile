@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM nginx:1.31.8-alpine
+FROM nginx:1.31.9-alpine
 # Remove once the base image ships brotli-libs >= 1.2.1 (CVE-2026-111497).
 RUN apk add --no-cache --upgrade 'brotli-libs>=1.2.1-r0'
 WORKDIR /app
